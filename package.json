@@ -1,0 +1,13 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "Дипломный проект курса Фронтенд-разработчик",
+  "main": "app.js",
+  "scripts": {
+    "lint": "npx eslint .",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "Anastasia Savinova",
+  "license": "ISC"
+}
