@@ -48,9 +48,9 @@ const createMovie = async (req, res, next) => {
       nameEN,
       thumbnail,
       movieId,
-      owner: ownerId
+      owner: ownerId,
     });
-    
+
     res.status(SUCCESS_CODE_CREATED).send(movie);
   } catch (err) {
     if (err.name === 'ValidationError' || err.name === 'CastError') {
