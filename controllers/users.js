@@ -30,7 +30,7 @@ const login = (req, res, next) => {
       if (!matched) {
         throw new AuthError('Неправильный мейл или пароль');
       }
-      const token = jwt.sign({ _id: userId }, NODE_ENV !== 'production' ? JWT_SECRET : 'super-secret-key', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: userId }, NODE_ENV ? JWT_SECRET : 'super-secret-key', { expiresIn: '7d' });
       return res.status(SUCCESS_CODE_OK).send({ token });
     })
     .catch((err) => {
