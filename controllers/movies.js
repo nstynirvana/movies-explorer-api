@@ -7,11 +7,11 @@ const {
 const {
   SUCCESS_CODE_OK,
   SUCCESS_CODE_CREATED,
-} = require('../utils/utils');
+} = require('../utils/constants');
 
 const getMovies = async (req, res, next) => {
   try {
-    const movies = await Movie.find({});
+    const movies = await Movie.find({ owner: req.user._id });
     res.status(SUCCESS_CODE_OK).send(movies);
   } catch (err) {
     next(err);

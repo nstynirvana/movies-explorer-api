@@ -5,14 +5,12 @@ const AuthError = require('../errors/AuthError');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const auth = (req, res, next) => {
-  const { authorization } = req.headers;
+  const token = req.cookies.jwt;
 
   let payload;
 
   try {
-    const token = authorization.replace('Bearer ', '');
-
-    payload = jwt.verify(token, NODE_ENV ? JWT_SECRET : 'super-secret-key');
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'super-secret-key');
   } catch (err) {
     throw new AuthError('Необходима авторизация');
   }

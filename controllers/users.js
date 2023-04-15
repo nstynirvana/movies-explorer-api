@@ -13,7 +13,7 @@ const {
 const {
   SUCCESS_CODE_OK,
   SUCCESS_CODE_CREATED,
-} = require('../utils/utils');
+} = require('../utils/constants');
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
@@ -31,6 +31,10 @@ const login = (req, res, next) => {
         throw new AuthError('Неправильный мейл или пароль');
       }
       const token = jwt.sign({ _id: userId }, NODE_ENV ? JWT_SECRET : 'super-secret-key', { expiresIn: '7d' });
+      res.cookie('jwt', token, {
+        maxAge: 3600000 * 24 * 7,
+        httpOnly: true,
+      });
       return res.status(SUCCESS_CODE_OK).send({ token });
     })
     .catch((err) => {
@@ -100,9 +104,19 @@ const updateUser = async (req, res, next) => {
   }
 };
 
+const signOut = (req, res) => {
+  res.status(SUCCESS_CODE_OK).clearCookie('jwt', {
+    maxAge: 3600000 * 24 * 7,
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  }).send(SUCCESS_CODE_OK);
+};
+
 module.exports = {
   createUser,
   updateUser,
   login,
   getInfoUser,
+  signOut,
 };

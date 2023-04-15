@@ -4,9 +4,10 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
+const helmet = require('helmet');
 const routes = require('./routes/index');
 const { handleErrors } = require('./middlewares/handleErrors');
-const NotFoundError = require('./errors/NotFoundError');
+const { MONGO_DEV } = require('./utils/constants');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 // Слушаем 3000 порт
@@ -16,7 +17,7 @@ const app = express();
 
 mongoose.set('strictQuery', true);
 mongoose.connect(
-  'mongodb://127.0.0.1:27017/bitfilmsdb',
+  MONGO_DEV,
   {
     useNewUrlParser: true,
   },
@@ -34,6 +35,8 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
+app.use(helmet());
+
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
@@ -41,10 +44,6 @@ app.get('/crash-test', () => {
 });
 
 app.use(routes);
-
-app.use((req, res, next) => {
-  next(new NotFoundError('Страница не найдена'));
-});
 
 app.use(errorLogger);
 
