@@ -4,10 +4,7 @@ const {
   NotFoundError,
   ForbiddenError,
 } = require('../errors/errors');
-const {
-  SUCCESS_CODE_OK,
-  SUCCESS_CODE_CREATED,
-} = require('../utils/constants');
+const { SUCCESS_CODE_OK, SUCCESS_CODE_CREATED } = require('../utils/constants');
 
 const getMovies = async (req, res, next) => {
   try {

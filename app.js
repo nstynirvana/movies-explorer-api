@@ -3,8 +3,10 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
+const corsOptions = require('./middlewares/cors');
 const routes = require('./routes/index');
 const { handleErrors } = require('./middlewares/handleErrors');
 const { MONGO_DEV } = require('./utils/constants');
@@ -28,6 +30,8 @@ mongoose.connect(
     });
   },
 );
+
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 

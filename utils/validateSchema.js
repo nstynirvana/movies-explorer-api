@@ -1,9 +1,9 @@
-function validateSchema(url) {
-  const regex = /https?:\/\/(www\.)?[a-zA-Z0-9\-._~:/?#[\]@!$&'()*+,;=]+/i;
-  if (regex.test(url)) {
-    return url;
+function validateSchema(email) {
+  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  if (regex.test(email)) {
+    return email;
   }
-  throw new Error('Введен некорректный url');
+  throw new Error('Введен некорректный email');
 }
 
 module.exports = { validateSchema };
